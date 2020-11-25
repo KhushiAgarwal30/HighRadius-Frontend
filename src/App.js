@@ -1,5 +1,6 @@
+import UnauthenticatedApp from './Unauthenticated-app';
 function App() {
-  return <div>Hello World</div>;
+  return <UnauthenticatedApp />;
 }
 
 export default App;
