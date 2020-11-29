@@ -1,9 +1,12 @@
 import * as React from "react";
+import { useHistory } from "react-router-dom";
 import { InputLabel, TextField, Typography, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import humanHand from "./assets/human-machine-hand-homepage.svg";
-import { UnaunthenticatedNavBar } from "./components";
+import { Navbar } from "./components";
+
+const URL = "http://localhost:8080/1705588/login";
 
 const useStyles = makeStyles({
   flip: {
@@ -41,20 +44,38 @@ const useStyles = makeStyles({
   },
 });
 
-export default function UnauthenticatedApp({ error, onSubmit }) {
+export default function UnauthenticatedApp({ user, setUser }) {
   const styles = useStyles();
+
+  const history = useHistory();
+
+  React.useLayoutEffect(() => {
+    if (user) {
+      history.push("/");
+    }
+  }, [user, history]);
 
   function handleSubmit(e) {
     e.preventDefault();
-    onSubmit({
-      username: e.target.elements.username.value,
-      password: e.target.elements.password.value,
-    });
+    fetch(
+      `${URL}?name=${encodeURIComponent(
+        e.target.elements.username.value
+      )}&password=${encodeURIComponent(e.target.elements.password.value)}`
+    )
+      .then((res) => res.json())
+      .then(
+        (user) => {
+          setUser(user);
+          window.localStorage.setItem("token", JSON.stringify(user));
+          history.push("/");
+        },
+        (err) => console.log(err)
+      );
   }
 
   return (
     <>
-      <UnaunthenticatedNavBar />
+      <Navbar isAuthenticated={false} />
       <div className={styles.wrapper}>
         <img className={styles.flip} src={humanHand} alt="Human Hand" />
       </div>{" "}
