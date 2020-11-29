@@ -1,3 +1,3 @@
-import UnaunthenticatedNavBar from './UnauthenticatedNavbar';
+import Navbar from "./Navbar";
 
-export { UnaunthenticatedNavBar };
+export { Navbar };
