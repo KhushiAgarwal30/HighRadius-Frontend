@@ -40,6 +40,7 @@ const useStyles = makeStyles({
     display: "block",
     marginTop: "1rem",
     marginLeft: "auto",
+    color: "white",
   },
 });
 

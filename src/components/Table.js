@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(2),
   },
   table: {
-    minWidth: 750,
+    minWidth: 600,
   },
   visuallyHidden: {
     border: 0,
@@ -59,7 +59,7 @@ export default function EnhancedTable({ level }) {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("order_id");
   const [selected, setSelected] = React.useState([]);
-  const [selectedRow, setSelectedRow] = React.useState([]);
+  const [, setSelectedRow] = React.useState([]);
   const [search, setSearch] = React.useState("");
   const [add, setAdd] = React.useState(false);
   const [edit, setEdit] = React.useState(false);
@@ -143,13 +143,11 @@ export default function EnhancedTable({ level }) {
 
   const handleSearch = (e) => {
     setSearch(e.target.value);
-    if (search.length >= 2) {
-      const words = searchRow;
-      const result = words.filter((word) =>
-        word.order_id.toString().startsWith(e.target.value)
-      );
-      setRows(result);
-    }
+    const words = searchRow;
+    const result = words.filter((word) =>
+      word.order_id.toString().startsWith(e.target.value)
+    );
+    setRows(result);
     if (e.target.value.length === 0) {
       setRows(searchRow);
     }
@@ -198,7 +196,7 @@ export default function EnhancedTable({ level }) {
                 <Button
                   style={{ marginLeft: "2vh", width: "10vh", color: "white" }}
                   variant="contained"
-                  color="secondary"
+                  color="primary"
                   onClick={handleAdd}
                 >
                   Add
@@ -206,7 +204,7 @@ export default function EnhancedTable({ level }) {
                 <Button
                   style={{ marginLeft: "2vh", width: "10vh", color: "white" }}
                   variant="contained"
-                  color="secondary"
+                  color="primary"
                   onClick={handleEdit}
                   disabled={selected.length === 0}
                 >
@@ -219,10 +217,8 @@ export default function EnhancedTable({ level }) {
                   style={{ marginLeft: "2vh", width: "10vh", color: "white" }}
                   variant="contained"
                   onClick={handleApprove}
-                  color="secondary"
-                  disabled={
-                    selected.length === 0 || selectedRow[0].order_amt > 50000
-                  }
+                  color="primary"
+                  disabled={selected.length === 0}
                 >
                   Approve
                 </Button>
@@ -230,7 +226,7 @@ export default function EnhancedTable({ level }) {
                   style={{ marginLeft: "2vh", width: "10vh", color: "white" }}
                   variant="contained"
                   onClick={handleReject}
-                  color="secondary"
+                  color="primary"
                   disabled={selected.length === 0}
                 >
                   Reject
@@ -249,7 +245,7 @@ export default function EnhancedTable({ level }) {
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <SearchIcon color="primary" />
+                    <SearchIcon color="secondary" />
                   </InputAdornment>
                 ),
               }}
@@ -289,6 +285,7 @@ export default function EnhancedTable({ level }) {
                           <Checkbox
                             checked={isItemSelected}
                             inputProps={{ "aria-labelledby": labelId }}
+                            color="primary"
                           />
                         </TableCell>
                         <TableCell

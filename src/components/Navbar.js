@@ -33,7 +33,12 @@ export default function NavBar({ isAuthenticated, setUser }) {
       {isAuthenticated ? (
         <>
           <img className={classes.abcimage} src={abcLogo} alt="Abc Logo" />
-          <Button onClick={handleClick} variant="contained" color="primary">
+          <Button
+            onClick={handleClick}
+            variant="contained"
+            color="primary"
+            style={{ color: "white" }}
+          >
             Logout
           </Button>
         </>
