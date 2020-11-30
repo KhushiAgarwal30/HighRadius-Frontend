@@ -1,14 +1,14 @@
 import * as React from "react";
 import { Redirect } from "react-router-dom";
 
-import { Navbar, Table } from "./components";
+import { Table } from "./components";
 
-export default function AuthenticatedApp({ user }) {
+export default function AuthenticatedApp({ user, children }) {
   const isAuthenticated = !!user;
 
   return isAuthenticated ? (
     <>
-      <Navbar isAuthenticated={isAuthenticated} />
+      {children}
       <Table level={user.level} />
     </>
   ) : (

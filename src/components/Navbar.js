@@ -1,5 +1,6 @@
 import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { useHistory } from "react-router-dom";
 
 import hrcLogo from "../assets/hrc-logo.svg";
 import abcLogo from "../assets/abc-logo.png";
@@ -19,15 +20,23 @@ const useStyles = makeStyles({
   },
 });
 
-export default function NavBar({ isAuthenticated }) {
+export default function NavBar({ isAuthenticated, setUser }) {
   const classes = useStyles();
+  const history = useHistory();
+
+  function handleClick() {
+    window.localStorage.removeItem("token");
+    setUser(null);
+    history.push("/login");
+  }
+
   return (
     <nav className={classes.nav}>
       <img className={classes.hrcimage} src={hrcLogo} alt="High Radius Logo" />
       {isAuthenticated ? (
         <>
           <img className={classes.abcimage} src={abcLogo} alt="Abc Logo" />
-          <Button variant="contained" color="primary">
+          <Button onClick={handleClick} variant="contained" color="primary">
             Logout
           </Button>
         </>

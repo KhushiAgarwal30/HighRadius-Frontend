@@ -44,9 +44,8 @@ const useStyles = makeStyles({
   },
 });
 
-export default function UnauthenticatedApp({ user, setUser }) {
+export default function UnauthenticatedApp({ setUser, isAuthenticated }) {
   const styles = useStyles();
-  const isAuthenticated = !!user;
   const history = useHistory();
 
   function handleSubmit(e) {
