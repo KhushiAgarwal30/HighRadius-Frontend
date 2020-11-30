@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useHistory } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import { InputLabel, TextField, Typography, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -46,14 +46,8 @@ const useStyles = makeStyles({
 
 export default function UnauthenticatedApp({ user, setUser }) {
   const styles = useStyles();
-
+  const isAuthenticated = !!user;
   const history = useHistory();
-
-  React.useLayoutEffect(() => {
-    if (user) {
-      history.push("/");
-    }
-  }, [user, history]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -73,7 +67,9 @@ export default function UnauthenticatedApp({ user, setUser }) {
       );
   }
 
-  return (
+  return isAuthenticated ? (
+    <Redirect to="/" />
+  ) : (
     <>
       <Navbar isAuthenticated={false} />
       <div className={styles.wrapper}>

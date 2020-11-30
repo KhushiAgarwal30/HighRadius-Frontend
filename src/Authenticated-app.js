@@ -1,32 +1,17 @@
 import * as React from "react";
-import { useHistory } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
-import { Navbar } from "./components";
-
-const URL = "http://localhost:8080/1705588/dashboard";
+import { Navbar, Table } from "./components";
 
 export default function AuthenticatedApp({ user }) {
-  const history = useHistory();
+  const isAuthenticated = !!user;
 
-  React.useLayoutEffect(() => {
-    if (user == null) {
-      history.push("/login");
-    }
-  }, [user, history]);
-
-  React.useEffect(() => {
-    fetch(URL)
-      .then((res) => res.json())
-      .then(
-        (data) => console.log(data),
-        (err) => console.log(err)
-      );
-  }, []);
-
-  return (
+  return isAuthenticated ? (
     <>
-      <Navbar isAuthenticated={!!user} />
-      <h1>Currently logged in user has a level of: {user?.level}</h1>
+      <Navbar isAuthenticated={isAuthenticated} />
+      <Table level={user.level} />
     </>
+  ) : (
+    <Redirect to="/login" />
   );
 }
