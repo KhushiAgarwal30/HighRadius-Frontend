@@ -4,7 +4,6 @@ import { InputLabel, TextField, Typography, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import humanHand from "./assets/human-machine-hand-homepage.svg";
-import { Navbar } from "./components";
 
 const URL = "http://localhost:8080/1705588/login";
 
@@ -44,7 +43,11 @@ const useStyles = makeStyles({
   },
 });
 
-export default function UnauthenticatedApp({ setUser, isAuthenticated }) {
+export default function UnauthenticatedApp({
+  setUser,
+  isAuthenticated,
+  children,
+}) {
   const styles = useStyles();
   const history = useHistory();
 
@@ -70,7 +73,7 @@ export default function UnauthenticatedApp({ setUser, isAuthenticated }) {
     <Redirect to="/" />
   ) : (
     <>
-      <Navbar isAuthenticated={false} />
+      {children}
       <div className={styles.wrapper}>
         <img className={styles.flip} src={humanHand} alt="Human Hand" />
       </div>{" "}

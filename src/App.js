@@ -19,10 +19,9 @@ function App() {
         </AuthenticatedApp>
       </Route>
       <Route path="/login" exact>
-        <UnauthenticatedApp
-          setUser={setUser}
-          isAuthenticated={isAuthenticated}
-        />
+        <UnauthenticatedApp setUser={setUser} isAuthenticated={isAuthenticated}>
+          <Navbar isAuthenticated={false} />
+        </UnauthenticatedApp>
       </Route>
     </Switch>
   );
