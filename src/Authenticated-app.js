@@ -3,9 +3,7 @@ import { Redirect } from "react-router-dom";
 
 import { Table } from "./components";
 
-export default function AuthenticatedApp({ user, children }) {
-  const isAuthenticated = !!user;
-
+export default function AuthenticatedApp({ user, isAuthenticated, children }) {
   return isAuthenticated ? (
     <>
       {children}

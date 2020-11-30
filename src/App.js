@@ -14,7 +14,7 @@ function App() {
   return (
     <Switch>
       <Route path="/" exact>
-        <AuthenticatedApp user={user}>
+        <AuthenticatedApp user={user} isAuthenticated={isAuthenticated}>
           <Navbar isAuthenticated={isAuthenticated} setUser={setUser} />
         </AuthenticatedApp>
       </Route>
