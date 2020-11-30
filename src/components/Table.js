@@ -68,58 +68,24 @@ export default function EnhancedTable({ level }) {
   const [rowsPerPage] = React.useState(10);
 
   React.useEffect(() => {
-    fetch(URL)
+    fetch(`${URL}?level=${level}`)
       .then((res) => res.json())
       .then(
         ({ data }) => {
           let result = [];
           data.forEach((el) => {
-            if (level === "Level 1") {
-              if (el.order_amt < 10000) {
-                result.push(
-                  createData(
-                    el.orderid,
-                    el.customer_name,
-                    el.customer_id,
-                    el.order_amt,
-                    el.approval_status,
-                    el.approved_by,
-                    el.notes,
-                    el.order_date
-                  )
-                );
-              }
-            } else if (level === "Level 2") {
-              if (el.order_amt >= 10000 && el.order_amt < 50000) {
-                result.push(
-                  createData(
-                    el.orderid,
-                    el.customer_name,
-                    el.customer_id,
-                    el.order_amt,
-                    el.approval_status,
-                    el.approved_by,
-                    el.notes,
-                    el.order_date
-                  )
-                );
-              }
-            } else if (level === "Level 3") {
-              if (el.order_amt > 50000) {
-                result.push(
-                  createData(
-                    el.orderid,
-                    el.customer_name,
-                    el.customer_id,
-                    el.order_amt,
-                    el.approval_status,
-                    el.approved_by,
-                    el.notes,
-                    el.order_date
-                  )
-                );
-              }
-            }
+            result.push(
+              createData(
+                el.orderid,
+                el.customer_name,
+                el.customer_id,
+                el.order_amt,
+                el.approval_status,
+                el.approved_by,
+                el.notes,
+                el.order_date
+              )
+            );
           });
           setRows(result);
           setSearchRow(result);

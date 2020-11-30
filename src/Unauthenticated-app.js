@@ -49,11 +49,14 @@ export default function UnauthenticatedApp({
   isAuthenticated,
   children,
 }) {
+  const [error, setError] = React.useState("");
+
   const styles = useStyles();
   const history = useHistory();
 
   function handleSubmit(e) {
     e.preventDefault();
+    setError(null);
     fetch(
       `${URL}?name=${encodeURIComponent(
         e.target.elements.username.value
@@ -62,11 +65,15 @@ export default function UnauthenticatedApp({
       .then((res) => res.json())
       .then(
         (user) => {
-          setUser(user);
-          window.localStorage.setItem("token", JSON.stringify(user));
-          history.push("/");
+          if (user.message === "Success") {
+            setUser(user);
+            window.localStorage.setItem("token", JSON.stringify(user));
+            history.push("/");
+          } else {
+            setError("Please provide correct credentials!");
+          }
         },
-        (err) => console.log(err)
+        (err) => setError(err.message)
       );
   }
 
@@ -139,6 +146,15 @@ export default function UnauthenticatedApp({
                 required
               />
             </div>{" "}
+            {!!error ? (
+              <Typography
+                variant="body1"
+                color="primary"
+                style={{ marginTop: "0.8rem" }}
+              >
+                {error}
+              </Typography>
+            ) : null}
             <Button
               size="large"
               variant="contained"
