@@ -57,7 +57,7 @@ export default function EnhancedTable({ level }) {
   const [edit, setEdit] = React.useState(false);
   const [page, setPage] = React.useState(0);
   const [searchRow, setSearchRow] = React.useState([]);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage] = React.useState(10);
 
   React.useEffect(() => {
     fetch(URL)
@@ -168,11 +168,6 @@ export default function EnhancedTable({ level }) {
 
   const handleChangePage = (_, newPage) => {
     setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
   };
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
@@ -312,13 +307,12 @@ export default function EnhancedTable({ level }) {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[5, 10]}
+          rowsPerPageOptions={[10]}
           component="div"
           count={rows.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onChangePage={handleChangePage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </Paper>
     </div>
