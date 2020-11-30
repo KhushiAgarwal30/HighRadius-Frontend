@@ -23,7 +23,8 @@ const URL = "http://localhost:8080/1705588/dashboard";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "100%",
+    margin: "2rem auto",
+    width: "80%",
   },
   paper: {
     width: "100%",
@@ -42,6 +43,13 @@ const useStyles = makeStyles((theme) => ({
     position: "absolute",
     top: 20,
     width: 1,
+  },
+  Grid: {
+    display: "flex",
+    flexDirection: "column",
+  },
+  paginationGrid: {
+    alignSelf: "flex-start",
   },
 }));
 
@@ -248,72 +256,79 @@ export default function EnhancedTable({ level }) {
             />
           </Grid>
         </Grid>
-        <TableContainer>
-          <Table className={classes.table} aria-labelledby="tableTitle">
-            <EnhancedTableHead
-              classes={classes}
-              order={order}
-              orderBy={orderBy}
-              onRequestSort={handleRequestSort}
-            />
-            <TableBody>
-              {stableSort(rows, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const isItemSelected = isSelected(row.order_id);
-                  const labelId = `enhanced-table-checkbox-${index}`;
+        <div className={classes.Grid}>
+          <TableContainer>
+            <Table className={classes.table} aria-labelledby="tableTitle">
+              <EnhancedTableHead
+                classes={classes}
+                order={order}
+                orderBy={orderBy}
+                onRequestSort={handleRequestSort}
+              />
+              <TableBody>
+                {stableSort(rows, getComparator(order, orderBy))
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row, index) => {
+                    const isItemSelected = isSelected(row.order_id);
+                    const labelId = `enhanced-table-checkbox-${index}`;
 
-                  return (
-                    <TableRow
-                      style={index % 2 ? { background: "#f0fffe" } : {}}
-                      hover
-                      onClick={(event) => handleClick(event, row.order_id, row)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.order_id}
-                      selected={isItemSelected}
-                    >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          checked={isItemSelected}
-                          inputProps={{ "aria-labelledby": labelId }}
-                        />
-                      </TableCell>
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
+                    return (
+                      <TableRow
+                        style={index % 2 ? { background: "#f0fffe" } : {}}
+                        hover
+                        onClick={(event) =>
+                          handleClick(event, row.order_id, row)
+                        }
+                        role="checkbox"
+                        aria-checked={isItemSelected}
+                        tabIndex={-1}
+                        key={row.order_id}
+                        selected={isItemSelected}
                       >
-                        {row.order_id}
-                      </TableCell>
-                      <TableCell align="right">{row.customer_name}</TableCell>
-                      <TableCell align="right">{row.cutomer_id}</TableCell>
-                      <TableCell align="right">{row.order_amt}</TableCell>
-                      <TableCell align="right">{row.approval_status}</TableCell>
-                      <TableCell align="right">{row.approved_by}</TableCell>
-                      <TableCell align="right">{row.notes}</TableCell>
-                      <TableCell align="right">{row.order_date}</TableCell>
-                    </TableRow>
-                  );
-                })}
-              {emptyRows > 0 && (
-                <TableRow style={{ height: 53 * emptyRows }}>
-                  <TableCell colSpan={9} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[10]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onChangePage={handleChangePage}
-        />
+                        <TableCell padding="checkbox">
+                          <Checkbox
+                            checked={isItemSelected}
+                            inputProps={{ "aria-labelledby": labelId }}
+                          />
+                        </TableCell>
+                        <TableCell
+                          component="th"
+                          id={labelId}
+                          scope="row"
+                          padding="none"
+                        >
+                          {row.order_id}
+                        </TableCell>
+                        <TableCell align="right">{row.customer_name}</TableCell>
+                        <TableCell align="right">{row.cutomer_id}</TableCell>
+                        <TableCell align="right">{row.order_amt}</TableCell>
+                        <TableCell align="right">
+                          {row.approval_status}
+                        </TableCell>
+                        <TableCell align="right">{row.approved_by}</TableCell>
+                        <TableCell align="right">{row.notes}</TableCell>
+                        <TableCell align="right">{row.order_date}</TableCell>
+                      </TableRow>
+                    );
+                  })}
+                {emptyRows > 0 && (
+                  <TableRow style={{ height: 53 * emptyRows }}>
+                    <TableCell colSpan={9} />
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            className={classes.paginationGrid}
+            rowsPerPageOptions={[10]}
+            component="div"
+            count={rows.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onChangePage={handleChangePage}
+          />
+        </div>
       </Paper>
     </div>
   );
