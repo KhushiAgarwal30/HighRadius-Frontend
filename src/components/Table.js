@@ -166,6 +166,7 @@ export default function EnhancedTable({ level }) {
                   variant="contained"
                   color="primary"
                   onClick={handleAdd}
+                  disabled={selected.length > 0}
                 >
                   Add
                 </Button>
