@@ -14,6 +14,7 @@ import {
   TableRow,
   Paper,
   Checkbox,
+  Typography,
 } from "@material-ui/core";
 
 import { createData, getComparator, stableSort } from "../utils";
@@ -68,6 +69,7 @@ export default function EnhancedTable({ level }) {
   const [edit, setEdit] = React.useState(false);
   const [page, setPage] = React.useState(0);
   const [, setSearchRow] = React.useState([]);
+  const [error, setError] = React.useState(null);
   const rowsPerPage = 10;
   React.useEffect(() => {
     fetch(`${URL}/dashboard?level=${level}`)
@@ -92,7 +94,7 @@ export default function EnhancedTable({ level }) {
           setRows(result);
           setSearchRow(result);
         },
-        (err) => console.log(err)
+        (err) => setError(err.message)
       );
   }, [level, page]);
 
@@ -117,7 +119,7 @@ export default function EnhancedTable({ level }) {
         .then(
           ({ data }) => {
             if (data.length === 0) {
-              window.location.reload();
+              setError("Please try searching for another order id!");
             } else {
               let result = [];
               data.forEach((e) => {
@@ -135,9 +137,10 @@ export default function EnhancedTable({ level }) {
                 );
               });
               setRows(result);
+              setError(null);
             }
           },
-          (err) => console.log(err)
+          (err) => setError(err.message)
         );
     }
     if (e.target.value === 0) {
@@ -161,8 +164,9 @@ export default function EnhancedTable({ level }) {
               );
             });
             setRows(result);
+            setError(null);
           },
-          (err) => console.log(err)
+          (err) => setError(err.message)
         );
     }
   };
@@ -270,83 +274,91 @@ export default function EnhancedTable({ level }) {
             />
           </Grid>
         </Grid>
-        <div className={classes.Grid}>
-          <TableContainer>
-            <Table className={classes.table} aria-labelledby="tableTitle">
-              <EnhancedTableHead
-                classes={classes}
-                order={order}
-                orderBy={orderBy}
-                onRequestSort={handleRequestSort}
-              />
-              <TableBody>
-                {stableSort(rows, getComparator(order, orderBy))
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row, index) => {
-                    const isItemSelected = isSelected(row.order_id);
-                    const labelId = `enhanced-table-checkbox-${index}`;
+        {error ? (
+          <Typography variant="h3" color="primary">
+            Please reload the page and try again!
+          </Typography>
+        ) : (
+          <div className={classes.Grid}>
+            <TableContainer>
+              <Table className={classes.table} aria-labelledby="tableTitle">
+                <EnhancedTableHead
+                  classes={classes}
+                  order={order}
+                  orderBy={orderBy}
+                  onRequestSort={handleRequestSort}
+                />
+                <TableBody>
+                  {stableSort(rows, getComparator(order, orderBy))
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((row, index) => {
+                      const isItemSelected = isSelected(row.order_id);
+                      const labelId = `enhanced-table-checkbox-${index}`;
 
-                    return (
-                      <TableRow
-                        style={index % 2 ? { background: "#f0fffe" } : {}}
-                        hover
-                        onClick={(event) =>
-                          handleClick(event, row.order_id, row)
-                        }
-                        role="checkbox"
-                        aria-checked={isItemSelected}
-                        tabIndex={-1}
-                        key={row.order_id}
-                        selected={isItemSelected}
-                      >
-                        <TableCell padding="checkbox">
-                          <Checkbox
-                            checked={isItemSelected}
-                            inputProps={{ "aria-labelledby": labelId }}
-                            color="primary"
-                          />
-                        </TableCell>
-                        <TableCell
-                          component="th"
-                          id={labelId}
-                          scope="row"
-                          padding="none"
+                      return (
+                        <TableRow
+                          style={index % 2 ? { background: "#f0fffe" } : {}}
+                          hover
+                          onClick={(event) =>
+                            handleClick(event, row.order_id, row)
+                          }
+                          role="checkbox"
+                          aria-checked={isItemSelected}
+                          tabIndex={-1}
+                          key={row.order_id}
+                          selected={isItemSelected}
                         >
-                          {row.order_id}
-                        </TableCell>
-                        <TableCell align="right">{row.customer_name}</TableCell>
-                        <TableCell align="right">{row.cutomer_id}</TableCell>
-                        <TableCell align="right">{row.order_amt}</TableCell>
-                        <TableCell align="right">
-                          {row.approval_status}
-                        </TableCell>
-                        <TableCell align="right">{row.approved_by}</TableCell>
-                        <TableCell align="right" style={{ width: 200 }}>
-                          {row.notes}
-                        </TableCell>
-                        <TableCell align="right">{row.order_date}</TableCell>
-                      </TableRow>
-                    );
-                  })}
-                {emptyRows > 0 && (
-                  <TableRow style={{ height: 53 * emptyRows }}>
-                    <TableCell colSpan={9} />
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            className={classes.paginationGrid}
-            rowsPerPageOptions={[rowsPerPage]}
-            component="div"
-            count={rows.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onChangePage={handleChangePage}
-            ActionsComponent={CustomPagination}
-          />
-        </div>
+                          <TableCell padding="checkbox">
+                            <Checkbox
+                              checked={isItemSelected}
+                              inputProps={{ "aria-labelledby": labelId }}
+                              color="primary"
+                            />
+                          </TableCell>
+                          <TableCell
+                            component="th"
+                            id={labelId}
+                            scope="row"
+                            padding="none"
+                          >
+                            {row.order_id}
+                          </TableCell>
+                          <TableCell align="right">
+                            {row.customer_name}
+                          </TableCell>
+                          <TableCell align="right">{row.cutomer_id}</TableCell>
+                          <TableCell align="right">{row.order_amt}</TableCell>
+                          <TableCell align="right">
+                            {row.approval_status}
+                          </TableCell>
+                          <TableCell align="right">{row.approved_by}</TableCell>
+                          <TableCell align="right" style={{ width: 200 }}>
+                            {row.notes}
+                          </TableCell>
+                          <TableCell align="right">{row.order_date}</TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  {emptyRows > 0 && (
+                    <TableRow style={{ height: 53 * emptyRows }}>
+                      <TableCell colSpan={9} />
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <TablePagination
+              className={classes.paginationGrid}
+              rowsPerPageOptions={[rowsPerPage]}
+              component="div"
+              count={rows.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onChangePage={handleChangePage}
+              ActionsComponent={CustomPagination}
+            />
+          </div>
+        )}
       </Paper>
     </div>
   );
