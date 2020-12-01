@@ -42,6 +42,14 @@ export default function TablePaginationActions(props) {
         onClick={handleFirstPageButtonClick}
         disabled={page === 0}
         aria-label="first page"
+        color="secondary"
+        style={{
+          backgroundColor: "#d7f4f5",
+          borderRadius: "0.5vh",
+          width: "2vh",
+          height: "2vh",
+          margin: "1vh",
+        }}
       >
         {theme.direction === "rtl" ? <LastPageIcon /> : <FirstPageIcon />}
       </IconButton>
@@ -49,6 +57,14 @@ export default function TablePaginationActions(props) {
         onClick={handleBackButtonClick}
         disabled={page === 0}
         aria-label="previous page"
+        color="secondary"
+        style={{
+          backgroundColor: "#d7f4f5",
+          borderRadius: "0.5vh",
+          width: "2vh",
+          height: "2vh",
+          margin: "1vh",
+        }}
       >
         {theme.direction === "rtl" ? (
           <KeyboardArrowRight />
@@ -60,6 +76,14 @@ export default function TablePaginationActions(props) {
         onClick={handleNextButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label="next page"
+        color="secondary"
+        style={{
+          backgroundColor: "#d7f4f5",
+          borderRadius: "0.5vh",
+          width: "2vh",
+          height: "2vh",
+          margin: "1vh",
+        }}
       >
         {theme.direction === "rtl" ? (
           <KeyboardArrowLeft />
@@ -71,6 +95,14 @@ export default function TablePaginationActions(props) {
         onClick={handleLastPageButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label="last page"
+        color="secondary"
+        style={{
+          backgroundColor: "#d7f4f5",
+          borderRadius: "0.5vh",
+          width: "2vh",
+          height: "2vh",
+          margin: "1vh",
+        }}
       >
         {theme.direction === "rtl" ? <FirstPageIcon /> : <LastPageIcon />}
       </IconButton>
