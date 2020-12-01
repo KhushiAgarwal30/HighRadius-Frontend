@@ -17,7 +17,10 @@ import {
 } from "@material-ui/core";
 
 import { createData, getComparator, stableSort } from "../utils";
-import { TableHead as EnhancedTableHead } from "../components";
+import {
+  TableHead as EnhancedTableHead,
+  CustomPagination,
+} from "../components";
 
 const URL = "http://localhost:8080/1705588/dashboard";
 
@@ -65,8 +68,7 @@ export default function EnhancedTable({ level }) {
   const [edit, setEdit] = React.useState(false);
   const [page, setPage] = React.useState(0);
   const [searchRow, setSearchRow] = React.useState([]);
-  const [rowsPerPage] = React.useState(10);
-
+  const rowsPerPage = 10;
   React.useEffect(() => {
     fetch(`${URL}?level=${level}`)
       .then((res) => res.json())
@@ -92,7 +94,7 @@ export default function EnhancedTable({ level }) {
         },
         (err) => console.log(err)
       );
-  }, [level]);
+  }, [level, page]);
 
   const handleAdd = () => {
     setAdd(!add);
@@ -269,7 +271,9 @@ export default function EnhancedTable({ level }) {
                           {row.approval_status}
                         </TableCell>
                         <TableCell align="right">{row.approved_by}</TableCell>
-                        <TableCell align="right">{row.notes}</TableCell>
+                        <TableCell align="right" style={{ width: 160 }}>
+                          {row.notes}
+                        </TableCell>
                         <TableCell align="right">{row.order_date}</TableCell>
                       </TableRow>
                     );
@@ -284,12 +288,13 @@ export default function EnhancedTable({ level }) {
           </TableContainer>
           <TablePagination
             className={classes.paginationGrid}
-            rowsPerPageOptions={[10]}
+            rowsPerPageOptions={[rowsPerPage]}
             component="div"
             count={rows.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onChangePage={handleChangePage}
+            ActionsComponent={CustomPagination}
           />
         </div>
       </Paper>
