@@ -271,7 +271,7 @@ export default function EnhancedTable({ level }) {
                           {row.approval_status}
                         </TableCell>
                         <TableCell align="right">{row.approved_by}</TableCell>
-                        <TableCell align="right" style={{ width: 160 }}>
+                        <TableCell align="right" style={{ width: 200 }}>
                           {row.notes}
                         </TableCell>
                         <TableCell align="right">{row.order_date}</TableCell>
