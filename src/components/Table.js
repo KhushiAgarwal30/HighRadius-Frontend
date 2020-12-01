@@ -22,7 +22,7 @@ import {
   CustomPagination,
 } from "../components";
 
-const URL = "http://localhost:8080/1705588/dashboard";
+const URL = "http://localhost:8080/1705588";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -67,10 +67,10 @@ export default function EnhancedTable({ level }) {
   const [add, setAdd] = React.useState(false);
   const [edit, setEdit] = React.useState(false);
   const [page, setPage] = React.useState(0);
-  const [searchRow, setSearchRow] = React.useState([]);
+  const [, setSearchRow] = React.useState([]);
   const rowsPerPage = 10;
   React.useEffect(() => {
-    fetch(`${URL}?level=${level}`)
+    fetch(`${URL}/dashboard?level=${level}`)
       .then((res) => res.json())
       .then(
         ({ data }) => {
@@ -111,13 +111,59 @@ export default function EnhancedTable({ level }) {
 
   const handleSearch = (e) => {
     setSearch(e.target.value);
-    const words = searchRow;
-    const result = words.filter((word) =>
-      word.order_id.toString().startsWith(e.target.value)
-    );
-    setRows(result);
-    if (e.target.value.length === 0) {
-      setRows(searchRow);
+    if (search.length >= 2) {
+      fetch(`${URL}/search?level=${level}&search=${e.target.value}`)
+        .then((res) => res.json())
+        .then(
+          ({ data }) => {
+            if (data.length === 0) {
+              window.location.reload();
+            } else {
+              let result = [];
+              data.forEach((e) => {
+                result.push(
+                  createData(
+                    e.orderid,
+                    e.customer_name,
+                    e.customer_id,
+                    e.order_amt,
+                    e.approval_status,
+                    e.approved_by,
+                    e.notes,
+                    e.order_date
+                  )
+                );
+              });
+              setRows(result);
+            }
+          },
+          (err) => console.log(err)
+        );
+    }
+    if (e.target.value === 0) {
+      fetch(`${URL}/search?level=${level}&search=${e.target.value}`)
+        .then((res) => res.json())
+        .then(
+          ({ data }) => {
+            let result = [];
+            data.forEach((e) => {
+              result.push(
+                createData(
+                  e.orderid,
+                  e.customer_name,
+                  e.customer_id,
+                  e.order_amt,
+                  e.approval_status,
+                  e.approved_by,
+                  e.notes,
+                  e.order_date
+                )
+              );
+            });
+            setRows(result);
+          },
+          (err) => console.log(err)
+        );
     }
   };
 
