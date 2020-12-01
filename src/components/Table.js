@@ -297,7 +297,13 @@ export default function EnhancedTable({ level }) {
 
                       return (
                         <TableRow
-                          style={index % 2 ? { background: "#f0fffe" } : {}}
+                          style={
+                            isItemSelected
+                              ? { background: "#ffd0a6" }
+                              : index % 2
+                              ? { background: "#f0fffe" }
+                              : {}
+                          }
                           hover
                           onClick={(event) =>
                             handleClick(event, row.order_id, row)
