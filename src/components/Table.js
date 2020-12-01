@@ -151,14 +151,14 @@ export default function EnhancedTable({ level }) {
 
   return (
     <div className={classes.root}>
-      <Paper className={classes.paper}>
+      <Paper elevation={3} className={classes.paper}>
         <Grid
           container
           direction="row"
           justify="space-between"
           alignItems="flex-start"
         >
-          <Grid item>
+          <Grid item style={{ padding: "1rem" }}>
             {level === "Level 1" ? (
               <div>
                 <Button
@@ -205,7 +205,10 @@ export default function EnhancedTable({ level }) {
           </Grid>
           <Grid item>
             <TextField
-              style={{ marginRight: "2vh", backgroundColor: "#f0fffe" }}
+              style={{
+                marginRight: "2vh",
+                padding: "1rem",
+              }}
               placeholder="Search"
               size="small"
               value={search}
