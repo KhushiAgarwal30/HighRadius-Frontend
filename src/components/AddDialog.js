@@ -1,17 +1,20 @@
 import React from "react";
-import Snackbar from "@material-ui/core/Snackbar";
-import { withStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import MuiDialogTitle from "@material-ui/core/DialogTitle";
-import MuiDialogContent from "@material-ui/core/DialogContent";
-import MuiDialogActions from "@material-ui/core/DialogActions";
-import IconButton from "@material-ui/core/IconButton";
-import CloseIcon from "@material-ui/icons/Close";
-import Typography from "@material-ui/core/Typography";
-import { Grid, TextField } from "@material-ui/core";
+import { makeStyles, styled } from "@material-ui/core/styles";
+import {
+  Grid,
+  TextField,
+  Button,
+  Dialog,
+  DialogTitle as MuiDialogTitle,
+  DialogContent as MuiDialogContent,
+  DialogActions as MuiDialogActions,
+  IconButton,
+  Typography,
+  Snackbar,
+} from "@material-ui/core";
+import { Close as CloseIcon } from "@material-ui/icons";
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     margin: 0,
     padding: theme.spacing(2),
@@ -21,22 +24,11 @@ const styles = (theme) => ({
     right: theme.spacing(1),
     top: theme.spacing(1),
   },
-});
+}));
 
-// const useStyles = makeStyles((theme) => ({
-//   root: {
-//     margin: 0,
-//     padding: theme.spacing(2),
-//   },
-//   closeButton: {
-//     position: "absolute",
-//     right: theme.spacing(1),
-//     top: theme.spacing(1),
-//   },
-// }));
-
-const DialogTitle = withStyles(styles)((props) => {
-  const { children, classes, onClose, ...other } = props;
+const DialogTitle = (props) => {
+  const classes = useStyles();
+  const { children, onClose, ...other } = props;
   return (
     <MuiDialogTitle disableTypography className={classes.root} {...other}>
       <Typography variant="h6">{children}</Typography>
@@ -51,21 +43,21 @@ const DialogTitle = withStyles(styles)((props) => {
       ) : null}
     </MuiDialogTitle>
   );
-});
+};
 
-const DialogContent = withStyles((theme) => ({
+const DialogContent = styled(MuiDialogContent)(({ theme }) => ({
   root: {
     padding: theme.spacing(2),
     width: "50vh",
   },
-}))(MuiDialogContent);
+}));
 
-const DialogActions = withStyles((theme) => ({
+const DialogActions = styled(MuiDialogActions)(({ theme }) => ({
   root: {
     margin: 0,
     padding: theme.spacing(1),
   },
-}))(MuiDialogActions);
+}));
 
 export default function AddDialog({ username, onChange, add }) {
   const [info, setInfo] = React.useState({
