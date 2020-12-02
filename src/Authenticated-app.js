@@ -7,7 +7,7 @@ export default function AuthenticatedApp({ user, isAuthenticated, children }) {
   return isAuthenticated ? (
     <>
       {children}
-      <Table level={user.level} />
+      <Table username={user.username} level={user.level} />
     </>
   ) : (
     <Redirect to="/login" />

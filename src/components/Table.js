@@ -21,6 +21,7 @@ import { createData, getComparator, stableSort } from "../utils";
 import {
   TableHead as EnhancedTableHead,
   CustomPagination,
+  AddDialog,
 } from "../components";
 
 const URL = "http://localhost:8080/1705588";
@@ -57,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function EnhancedTable({ level }) {
+export default function EnhancedTable({ level, username }) {
   const classes = useStyles();
   const [rows, setRows] = React.useState([]);
   const [order, setOrder] = React.useState("asc");
@@ -229,6 +230,7 @@ export default function EnhancedTable({ level }) {
                 >
                   Edit
                 </Button>
+                <AddDialog add={add} onChange={handleAdd} username={username} />
               </div>
             ) : (
               <div>
