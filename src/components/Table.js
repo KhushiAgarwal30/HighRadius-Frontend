@@ -22,6 +22,7 @@ import {
   TableHead as EnhancedTableHead,
   CustomPagination,
   AddDialog,
+  EditDialog,
 } from "../components";
 
 const URL = "http://localhost:8080/1705588";
@@ -64,7 +65,7 @@ export default function EnhancedTable({ level, username }) {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("order_id");
   const [selected, setSelected] = React.useState([]);
-  const [, setSelectedRow] = React.useState([]);
+  const [selectedRow, setSelectedRow] = React.useState([]);
   const [search, setSearch] = React.useState("");
   const [add, setAdd] = React.useState(false);
   const [edit, setEdit] = React.useState(false);
@@ -231,6 +232,12 @@ export default function EnhancedTable({ level, username }) {
                   Edit
                 </Button>
                 <AddDialog add={add} onChange={handleAdd} username={username} />
+                <EditDialog
+                  edit={edit}
+                  selected={selected[0]}
+                  selectedRow={selectedRow[0]}
+                  onChange={handleEdit}
+                />
               </div>
             ) : (
               <div>
