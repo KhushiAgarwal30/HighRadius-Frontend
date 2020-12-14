@@ -73,7 +73,7 @@ export default function EnhancedTable({ level, username }) {
   const [, setSearchRow] = React.useState([]);
   const [error, setError] = React.useState(null);
   const rowsPerPage = 10;
-  React.useEffect(() => {
+  const handleLoad = React.useCallback(() => {
     fetch(`${URL}/dashboard?level=${level}`)
       .then((res) => res.json())
       .then(
@@ -98,13 +98,18 @@ export default function EnhancedTable({ level, username }) {
         },
         (err) => setError(err.message)
       );
-  }, [level, page]);
+  }, [level]);
+  React.useEffect(() => {
+    handleLoad();
+  }, [handleLoad, level, page]);
 
   const handleAdd = () => {
     setAdd(!add);
+    handleLoad();
   };
   const handleEdit = () => {
     setEdit(!edit);
+    handleLoad();
   };
 
   const handleRequestSort = (event, property) => {

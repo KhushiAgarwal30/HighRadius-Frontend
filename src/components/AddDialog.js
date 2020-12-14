@@ -85,7 +85,6 @@ export default function AddDialog({ username, onChange, add }) {
       return;
     }
     setOpen(false);
-    window.location.reload(false);
   };
   const handleAdd = () => {
     onChange(!add);
