@@ -73,6 +73,7 @@ export default function EnhancedTable({ level, username }) {
   const [, setSearchRow] = React.useState([]);
   const [error, setError] = React.useState(null);
   const rowsPerPage = 10;
+
   const handleLoad = React.useCallback(() => {
     fetch(`${URL}/dashboard?level=${level}`)
       .then((res) => res.json())
@@ -99,6 +100,7 @@ export default function EnhancedTable({ level, username }) {
         (err) => setError(err.message)
       );
   }, [level]);
+
   React.useEffect(() => {
     handleLoad();
   }, [handleLoad, level, page]);
@@ -120,7 +122,7 @@ export default function EnhancedTable({ level, username }) {
 
   const handleSearch = (e) => {
     setSearch(e.target.value);
-    if (search.length >= 2) {
+    if (search.match(/^[0-9]*$/g) && search.length >= 2) {
       fetch(`${URL}/search?level=${level}&search=${e.target.value}`)
         .then((res) => res.json())
         .then(
@@ -150,7 +152,7 @@ export default function EnhancedTable({ level, username }) {
           (err) => setError(err.message)
         );
     }
-    if (e.target.value === 0) {
+    if (e.target.value.length === 0) {
       fetch(`${URL}/search?level=${level}&search=${e.target.value}`)
         .then((res) => res.json())
         .then(
@@ -178,9 +180,23 @@ export default function EnhancedTable({ level, username }) {
     }
   };
 
-  const handleApprove = () => {};
-
-  const handleReject = () => {};
+  const handleApproveAndReject = (op) => {
+    let name = username.split("_");
+    let searchName = name[0] + " " + name[1];
+    let status = "Rejected";
+    if (op === "Approved") {
+      status = "Approved";
+    }
+    fetch(
+      `${URL}/confirm?status=${status}&username=${searchName}&orderid=${selected[0]}`
+    )
+      .then((res) => res.json())
+      .then(({ message }) => {
+        if (message === "Success") {
+          handleLoad();
+        }
+      });
+  };
 
   const handleClick = (_, order_id, row) => {
     const selectedIndex = selected.indexOf(order_id);
@@ -249,7 +265,7 @@ export default function EnhancedTable({ level, username }) {
                 <Button
                   style={{ marginLeft: "2vh", width: "10vh", color: "white" }}
                   variant="contained"
-                  onClick={handleApprove}
+                  onClick={() => handleApproveAndReject("Approved")}
                   color="primary"
                   disabled={selected.length === 0}
                 >
@@ -258,7 +274,7 @@ export default function EnhancedTable({ level, username }) {
                 <Button
                   style={{ marginLeft: "2vh", width: "10vh", color: "white" }}
                   variant="contained"
-                  onClick={handleReject}
+                  onClick={() => handleApproveAndReject("Rejected")}
                   color="primary"
                   disabled={selected.length === 0}
                 >
@@ -290,7 +306,7 @@ export default function EnhancedTable({ level, username }) {
         </Grid>
         {error ? (
           <Typography variant="h3" color="primary">
-            Please reload the page and try again!
+            {error}
           </Typography>
         ) : (
           <div className={classes.Grid}>
