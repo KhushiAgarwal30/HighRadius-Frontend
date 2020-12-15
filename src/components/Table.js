@@ -269,7 +269,10 @@ export default function EnhancedTable({ level, username }) {
                   variant="contained"
                   onClick={() => handleApproveAndReject("Approved")}
                   color="primary"
-                  disabled={selected.length === 0}
+                  disabled={
+                    selected.length === 0 ||
+                    selectedRow[0].approval_status === "Approved"
+                  }
                 >
                   Approve
                 </Button>
@@ -278,7 +281,10 @@ export default function EnhancedTable({ level, username }) {
                   variant="contained"
                   onClick={() => handleApproveAndReject("Rejected")}
                   color="primary"
-                  disabled={selected.length === 0}
+                  disabled={
+                    selected.length === 0 ||
+                    selectedRow[0].approval_status === "Rejected"
+                  }
                 >
                   Reject
                 </Button>

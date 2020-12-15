@@ -75,6 +75,7 @@ export default function AddDialog({ username, onChange, add }) {
     notes: "",
   });
   const [open, setOpen] = React.useState(false);
+  const [error, setError] = React.useState(null);
 
   const handleClick = () => {
     setOpen(true);
@@ -106,6 +107,7 @@ export default function AddDialog({ username, onChange, add }) {
       name = "";
       status = "Awaiting Approval";
     }
+    setError(null);
     fetch(
       "http://localhost:8080/1705588/add?customer_id=" +
         info.customer_id +
@@ -125,6 +127,10 @@ export default function AddDialog({ username, onChange, add }) {
       .then((res) => res.json())
       .then(({ message }) => {
         if (message === "Success") {
+          handleClick();
+          handleAdd();
+        } else {
+          setError(message);
           handleClick();
           handleAdd();
         }
@@ -233,9 +239,15 @@ export default function AddDialog({ username, onChange, add }) {
         </DialogActions>
       </Dialog>
       <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="success">
-          Order Added
-        </Alert>
+        {!!error ? (
+          <Alert onClose={handleClose} severity="error">
+            {error}
+          </Alert>
+        ) : (
+          <Alert onClose={handleClose} severity="success">
+            Order Added
+          </Alert>
+        )}
       </Snackbar>
     </div>
   );
