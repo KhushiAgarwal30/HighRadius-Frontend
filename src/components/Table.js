@@ -112,7 +112,7 @@ export default function EnhancedTable({ level, username }) {
   const handleEdit = () => {
     setEdit(!edit);
     handleLoad();
-    // setSelected([]);
+    setSelected([]);
   };
 
   const handleRequestSort = (event, property) => {
@@ -195,6 +195,7 @@ export default function EnhancedTable({ level, username }) {
       .then(({ message }) => {
         if (message === "Success") {
           handleLoad();
+          setSelected([]);
         }
       });
   };
@@ -337,7 +338,7 @@ export default function EnhancedTable({ level, username }) {
                           }
                           hover
                           onClick={(event) =>
-                            handleClick(event, row.order_date, row)
+                            handleClick(event, row.order_id, row)
                           }
                           role="checkbox"
                           aria-checked={isItemSelected}

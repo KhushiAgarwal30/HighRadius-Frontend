@@ -107,15 +107,20 @@ export default function EditDialog(props) {
     setInfo({ ...info, approved_by: name, order_amt: e.target.value });
   };
   const handleSaveChanges = () => {
+    let nameToBeSent = info.approved_by === "David Lee" ? info.approved_by : "";
+    let approval_status =
+      nameToBeSent === "David Lee" ? "Approved" : "Awaiting Approval";
     fetch(
       "http://localhost:8080/1705588/update?order_amt=" +
         info.order_amt +
         "&notes=" +
         info.notes +
         "&order_id=" +
-        props.selected +
+        info.order_id +
         "&approved_by=" +
-        info.approved_by
+        nameToBeSent +
+        "&approval_status=" +
+        approval_status
     )
       .then((res) => res.json())
       .then(({ message }) => {
@@ -151,7 +156,7 @@ export default function EditDialog(props) {
               <Typography>Order ID</Typography>
             </Grid>
             <Grid item xs={8}>
-              <TextField disabled value={props.selected} />
+              <TextField disabled value={info.order_id} />
             </Grid>
             <Grid item xs={4}>
               <Typography>Order Amount</Typography>
@@ -176,7 +181,7 @@ export default function EditDialog(props) {
               />
             </Grid>
             <Grid item xs={4}>
-              <Typography>Approved By</Typography>
+              <Typography>Approval By</Typography>
             </Grid>
             <Grid item xs={8}>
               <TextField disabled value={info.approved_by} />
