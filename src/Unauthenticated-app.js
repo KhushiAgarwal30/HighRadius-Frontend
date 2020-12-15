@@ -56,6 +56,11 @@ export default function UnauthenticatedApp({
 
   function handleSubmit(e) {
     e.preventDefault();
+    if (e.target.elements.username.value.trim().length === 0) {
+      return setError("Please provide a valid username");
+    } else if (e.target.elements.password.value.trim().length === 0) {
+      return setError("Please provide a valid password");
+    }
     setError(null);
     fetch(
       `${URL}?name=${encodeURIComponent(
