@@ -179,7 +179,7 @@ export default function EditDialog(props) {
               <Typography>Approved By</Typography>
             </Grid>
             <Grid item xs={8}>
-              <TextField value={info.approved_by} />
+              <TextField disabled value={info.approved_by} />
             </Grid>
           </Grid>
         </DialogContent>

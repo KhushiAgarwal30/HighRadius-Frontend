@@ -62,8 +62,8 @@ const useStyles = makeStyles((theme) => ({
 export default function EnhancedTable({ level, username }) {
   const classes = useStyles();
   const [rows, setRows] = React.useState([]);
-  const [order, setOrder] = React.useState("asc");
-  const [orderBy, setOrderBy] = React.useState("order_id");
+  const [order, setOrder] = React.useState("desc");
+  const [orderBy, setOrderBy] = React.useState("order_date");
   const [selected, setSelected] = React.useState([]);
   const [selectedRow, setSelectedRow] = React.useState([]);
   const [search, setSearch] = React.useState("");
@@ -112,6 +112,7 @@ export default function EnhancedTable({ level, username }) {
   const handleEdit = () => {
     setEdit(!edit);
     handleLoad();
+    // setSelected([]);
   };
 
   const handleRequestSort = (event, property) => {
@@ -336,7 +337,7 @@ export default function EnhancedTable({ level, username }) {
                           }
                           hover
                           onClick={(event) =>
-                            handleClick(event, row.order_id, row)
+                            handleClick(event, row.order_date, row)
                           }
                           role="checkbox"
                           aria-checked={isItemSelected}
