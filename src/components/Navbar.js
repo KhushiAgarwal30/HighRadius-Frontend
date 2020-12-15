@@ -4,20 +4,36 @@ import { makeStyles } from "@material-ui/core/styles";
 import hrcLogo from "../assets/hrc-logo.svg";
 import abcLogo from "../assets/abc-logo.png";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   nav: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "flex-start",
+    flexWrap: "wrap",
     margin: "0.8rem",
+    [theme.breakpoints.down("md")]: {
+      width: "100%",
+    },
+  },
+  button: {
+    [theme.breakpoints.down("md")]: {
+      margin: "0.8rem auto 0 auto",
+    },
   },
   hrcimage: {
     paddingLeft: "0.8rem",
+    [theme.breakpoints.down("md")]: {
+      paddingLeft: "0",
+      margin: "0 auto",
+    },
   },
   abcimage: {
     transform: "translateY(-20px)",
+    [theme.breakpoints.down("md")]: {
+      display: "none",
+    },
   },
-});
+}));
 
 export default function NavBar({ isAuthenticated, setUser }) {
   const classes = useStyles();
@@ -34,6 +50,7 @@ export default function NavBar({ isAuthenticated, setUser }) {
         <>
           <img className={classes.abcimage} src={abcLogo} alt="Abc Logo" />
           <Button
+            className={classes.button}
             onClick={handleClick}
             variant="contained"
             color="primary"
