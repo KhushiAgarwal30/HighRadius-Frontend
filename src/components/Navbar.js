@@ -11,9 +11,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "flex-start",
     flexWrap: "wrap",
     margin: "0.8rem",
-    [theme.breakpoints.down("md")]: {
-      width: "100%",
-    },
   },
   button: {
     [theme.breakpoints.down("md")]: {

@@ -15,6 +15,7 @@ import {
   Paper,
   Checkbox,
   Typography,
+  useMediaQuery,
 } from "@material-ui/core";
 
 import { createData, getComparator, stableSort } from "../utils";
@@ -31,6 +32,10 @@ const useStyles = makeStyles((theme) => ({
   root: {
     margin: "2rem auto",
     width: "80%",
+    [theme.breakpoints.down("sm")]: {
+      width: "100%",
+      marginBottom: "0",
+    },
   },
   paper: {
     width: "100%",
@@ -73,6 +78,8 @@ export default function EnhancedTable({ level, username }) {
   const [, setSearchRow] = React.useState([]);
   const [error, setError] = React.useState(null);
   const rowsPerPage = 10;
+
+  const matches = useMediaQuery("(max-width: 500px)");
 
   const handleLoad = React.useCallback(() => {
     fetch(`${URL}/dashboard?level=${level}`)
@@ -230,7 +237,7 @@ export default function EnhancedTable({ level, username }) {
         <Grid
           container
           direction="row"
-          justify="space-between"
+          justify={matches ? "center" : "space-between"}
           alignItems="flex-start"
         >
           <Grid item style={{ padding: "1rem" }}>

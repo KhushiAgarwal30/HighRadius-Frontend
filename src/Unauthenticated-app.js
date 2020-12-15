@@ -7,18 +7,27 @@ import humanHand from "./assets/human-machine-hand-homepage.svg";
 
 const URL = "http://localhost:8080/1705588/login";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   flip: {
     transform: "scale(-1,1)",
     width: "100%",
   },
   wrapper: {
     transform: "translateY(-10%)",
+    [theme.breakpoints.down("md")]: {
+      display: "none",
+    },
   },
   formWrapper: {
     width: "100vw",
+    minHeight: "100vh",
     display: "flex",
+    flexWrap: "wrap",
     justifyContent: "space-between",
+    [theme.breakpoints.down("md")]: {
+      flexDirection: "column",
+      justifyContent: "center",
+    },
   },
   targetText: {
     padding: "1rem 1rem 1rem 2.75rem",
@@ -27,6 +36,12 @@ const useStyles = makeStyles({
     borderBottomRightRadius: "10px",
     color: "white",
     alignSelf: "flex-start",
+    [theme.breakpoints.down("md")]: {
+      padding: "1rem 0",
+      marginTop: "2rem",
+      width: "100vw",
+      textAlign: "center",
+    },
   },
   formStyles: {
     flex: "1",
@@ -34,6 +49,14 @@ const useStyles = makeStyles({
       width: "50%",
       margin: "0 auto",
       transform: "translateY(-70%)",
+      [theme.breakpoints.down("md")]: {
+        width: "60%",
+        transform: "translateY(0)",
+        marginTop: "3rem",
+      },
+      [theme.breakpoints.down("sm")]: {
+        width: "80%",
+      },
     },
   },
   button: {
@@ -41,8 +64,11 @@ const useStyles = makeStyles({
     marginTop: "1rem",
     marginLeft: "auto",
     color: "white",
+    [theme.breakpoints.down("md")]: {
+      margin: "1rem auto",
+    },
   },
-});
+}));
 
 export default function UnauthenticatedApp({
   setUser,
