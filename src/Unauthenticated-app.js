@@ -14,9 +14,9 @@ const useStyles = makeStyles((theme) => ({
   },
   wrapper: {
     transform: "translateY(-10%)",
-    [theme.breakpoints.down("md")]: {
-      display: "none",
-    },
+    // [theme.breakpoints.down("md")]: {
+    //   display: "none",
+    // },
   },
   formWrapper: {
     width: "100vw",
