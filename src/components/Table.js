@@ -18,7 +18,7 @@ import {
   useMediaQuery,
 } from "@material-ui/core";
 
-import { createData, getComparator, stableSort } from "../utils";
+import { createData, getComparator, stableSort, formatDate } from "../utils";
 import {
   TableHead as EnhancedTableHead,
   CustomPagination,
@@ -384,7 +384,9 @@ export default function EnhancedTable({ level, username }) {
                         <TableCell align="right" style={{ width: 200 }}>
                           {row.notes}
                         </TableCell>
-                        <TableCell align="right">{row.order_date}</TableCell>
+                        <TableCell align="right">
+                          {formatDate(row.order_date)}
+                        </TableCell>
                       </TableRow>
                     );
                   })}

@@ -45,3 +45,9 @@ export function stableSort(array, comparator) {
   });
   return stabilizedThis.map((el) => el[0]);
 }
+
+export function formatDate(date) {
+  const spaceRemovedDate = date.split(" ");
+  const formattedDate = spaceRemovedDate[0].replace(/-/g, "/");
+  return formattedDate;
+}
