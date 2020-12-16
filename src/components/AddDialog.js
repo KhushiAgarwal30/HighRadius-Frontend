@@ -87,9 +87,11 @@ export default function AddDialog({ username, onChange, add }) {
     }
     setOpen(false);
   };
+
   const handleAdd = () => {
     onChange(!add);
   };
+
   const handleAddNew = () => {
     let name = username;
     name = username.split("_");
@@ -161,7 +163,14 @@ export default function AddDialog({ username, onChange, add }) {
                 required
                 type="number"
                 value={info.order_id}
-                error={info.order_id.length <= 4}
+                error={
+                  info.order_id.length !== 6 && isNaN(parseInt(info.order_id))
+                }
+                helperText={
+                  info.order_id.length === 0 || info.order_id.length === 6
+                    ? ""
+                    : "Order ID should be of 6 digits"
+                }
                 onChange={(e) => setInfo({ ...info, order_id: e.target.value })}
               />
             </Grid>
@@ -172,7 +181,13 @@ export default function AddDialog({ username, onChange, add }) {
               <TextField
                 required
                 value={info.customer_name}
-                error={info.customer_name.length <= 6}
+                error={info.customer_name.length < 3}
+                helperText={
+                  info.customer_name.length === 0 ||
+                  info.customer_name.length >= 3
+                    ? ""
+                    : "Customer Name should be of minimum 3 characters"
+                }
                 onChange={(e) =>
                   setInfo({ ...info, customer_name: e.target.value })
                 }
@@ -186,7 +201,15 @@ export default function AddDialog({ username, onChange, add }) {
                 required
                 type="number"
                 value={info.customer_id}
-                error={info.customer_id.length <= 2}
+                error={
+                  info.customer_id.length !== 3 &&
+                  isNaN(parseInt(info.customer_id))
+                }
+                helperText={
+                  info.customer_id.length === 0 || info.customer_id.length === 3
+                    ? ""
+                    : "Customer ID should be of 3 digits"
+                }
                 onChange={(e) =>
                   setInfo({ ...info, customer_id: e.target.value })
                 }
@@ -200,7 +223,12 @@ export default function AddDialog({ username, onChange, add }) {
                 required
                 value={info.order_amt}
                 type="number"
-                error={info.order_amt <= 1000}
+                error={info.order_amt <= 100 || isNaN(parseInt(info.order_amt))}
+                helperText={
+                  info.order_amt >= 100 || info.order_amt === ""
+                    ? ""
+                    : "Order amount should be greater than 100"
+                }
                 onChange={(e) =>
                   setInfo({ ...info, order_amt: e.target.value })
                 }
@@ -211,8 +239,6 @@ export default function AddDialog({ username, onChange, add }) {
             </Grid>
             <Grid item xs={8}>
               <TextField
-                required
-                error={info.notes.length <= 5}
                 value={info.notes}
                 onChange={(e) => setInfo({ ...info, notes: e.target.value })}
               />
@@ -223,11 +249,10 @@ export default function AddDialog({ username, onChange, add }) {
           <Button
             autoFocus
             disabled={
-              info.order_id.length <= 4 ||
-              info.customer_name.length <= 6 ||
-              info.customer_id.length <= 2 ||
-              info.order_amt <= 1000 ||
-              info.notes.length <= 5
+              info.order_id.length !== 6 ||
+              info.customer_name.length < 3 ||
+              info.customer_id.length !== 3 ||
+              info.order_amt <= 100
             }
             onClick={handleAddNew}
             variant="contained"
