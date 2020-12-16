@@ -64,17 +64,20 @@ const DialogActions = styled(MuiDialogActions)(({ theme }) => ({
   },
 }));
 
+const initialState = {
+  order_id: "",
+  customer_name: "",
+  customer_id: "",
+  order_amt: "",
+  approval_status: "",
+  approved_by: "",
+  notes: "",
+};
+
 export default function AddDialog({ username, onChange, add }) {
-  const [info, setInfo] = React.useState({
-    order_id: "",
-    customer_name: "",
-    customer_id: "",
-    order_amt: "",
-    approval_status: "",
-    approved_by: "",
-    notes: "",
-  });
+  const [info, setInfo] = React.useState(initialState);
   const [open, setOpen] = React.useState(false);
+  const [selectedDate, setSelectedDate] = React.useState("");
   const [error, setError] = React.useState(null);
 
   const handleClick = () => {
@@ -124,6 +127,9 @@ export default function AddDialog({ username, onChange, add }) {
         status: status,
         approved_by: name,
         notes: info.notes,
+        date:
+          selectedDate +
+          ` ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`,
       }),
     };
 
@@ -140,6 +146,7 @@ export default function AddDialog({ username, onChange, add }) {
           handleClick();
           handleAdd();
         }
+        setInfo(initialState);
       });
   };
 
@@ -217,6 +224,32 @@ export default function AddDialog({ username, onChange, add }) {
                 onChange={(e) =>
                   setInfo({ ...info, customer_id: e.target.value })
                 }
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <Typography>Order Date</Typography>
+            </Grid>
+            <Grid item xs={8}>
+              <TextField
+                id="date-picker-dialog"
+                type="date"
+                style={{ width: "12.5rem" }}
+                value={selectedDate}
+                inputProps={{
+                  min: "2012-01-01",
+                  max:
+                    new Date().getFullYear() +
+                    "-" +
+                    (new Date().getMonth() + 1) +
+                    "-" +
+                    new Date().getDate(),
+                }}
+                onChange={(e) => {
+                  setSelectedDate(e.target.value);
+                }}
+                KeyboardButtonProps={{
+                  "aria-label": "change date",
+                }}
               />
             </Grid>
             <Grid item xs={4}>

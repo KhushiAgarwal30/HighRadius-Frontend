@@ -121,7 +121,7 @@ export default function EditDialog(props) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        order_amt: info.order_amt,
+        order_amt: info.order_amt + "",
         notes: info.notes,
         order_id: info.order_id + "",
         approved_by: nameToBeSent,
@@ -183,7 +183,6 @@ export default function EditDialog(props) {
             <Grid item xs={8}>
               <TextField
                 required
-                error={info.notes.length <= 5}
                 value={info.notes}
                 onChange={(e) => setInfo({ ...info, notes: e.target.value })}
               />
@@ -198,10 +197,7 @@ export default function EditDialog(props) {
         </DialogContent>
         <DialogActions>
           <Button
-            disabled={
-              !info.order_amt.toString().match(/^[0-9]*$/g) ||
-              info.notes.length <= 5
-            }
+            disabled={!info.order_amt.toString().match(/^[0-9]*$/g)}
             autoFocus
             onClick={handleSaveChanges}
             variant="contained"
