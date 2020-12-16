@@ -88,11 +88,17 @@ export default function UnauthenticatedApp({
       return setError("Please provide a valid password");
     }
     setError(null);
-    fetch(
-      `${URL}?name=${encodeURIComponent(
-        e.target.elements.username.value
-      )}&password=${encodeURIComponent(e.target.elements.password.value)}`
-    )
+    const config = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: e.target.elements.username.value,
+        password: e.target.elements.password.value,
+      }),
+    };
+    fetch(URL, config)
       .then((res) => res.json())
       .then(
         (user) => {

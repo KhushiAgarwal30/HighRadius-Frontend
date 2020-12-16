@@ -97,6 +97,7 @@ export default function AddDialog({ username, onChange, add }) {
     name = username.split("_");
     name = name[0] + " " + name[1];
     let status;
+
     if (info.order_amt <= 10000) {
       setInfo({ ...info, approval_status: "Approved", approved_by: name });
       status = "Approved";
@@ -109,23 +110,26 @@ export default function AddDialog({ username, onChange, add }) {
       name = "";
       status = "Awaiting Approval";
     }
+
+    const config = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        customer_id: info.customer_id,
+        customer_name: info.customer_name,
+        order_id: info.order_id,
+        order_amt: info.order_amt,
+        status: status,
+        approved_by: name,
+        notes: info.notes,
+      }),
+    };
+
     setError(null);
-    fetch(
-      "http://localhost:8080/1705588/add?customer_id=" +
-        info.customer_id +
-        "&customer_name=" +
-        info.customer_name +
-        "&order_id=" +
-        info.order_id +
-        "&order_amt=" +
-        info.order_amt +
-        "&status=" +
-        status +
-        "&approved_by=" +
-        name +
-        "&notes=" +
-        info.notes
-    )
+
+    fetch("http://localhost:8080/1705588/add", config)
       .then((res) => res.json())
       .then(({ message }) => {
         if (message === "Success") {

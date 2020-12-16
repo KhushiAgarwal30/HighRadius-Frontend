@@ -76,6 +76,7 @@ export default function EditDialog(props) {
   const handleClick = () => {
     setOpen(true);
   };
+
   React.useEffect(() => {
     if (props.selectedRow) {
       setInfo({
@@ -86,6 +87,7 @@ export default function EditDialog(props) {
       });
     }
   }, [props.selectedRow]);
+
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -95,6 +97,7 @@ export default function EditDialog(props) {
   const handleEdit = () => {
     props.onChange(!props.edit);
   };
+
   const handleChangeAmt = (e) => {
     let name = "";
     if (e.target.value < 10000) {
@@ -106,22 +109,27 @@ export default function EditDialog(props) {
     }
     setInfo({ ...info, approved_by: name, order_amt: e.target.value });
   };
+
   const handleSaveChanges = () => {
     let nameToBeSent = info.approved_by === "David Lee" ? info.approved_by : "";
     let approval_status =
       nameToBeSent === "David Lee" ? "Approved" : "Awaiting Approval";
-    fetch(
-      "http://localhost:8080/1705588/update?order_amt=" +
-        info.order_amt +
-        "&notes=" +
-        info.notes +
-        "&order_id=" +
-        info.order_id +
-        "&approved_by=" +
-        nameToBeSent +
-        "&approval_status=" +
-        approval_status
-    )
+
+    const config = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        order_amt: info.order_amt,
+        notes: info.notes,
+        order_id: info.order_id + "",
+        approved_by: nameToBeSent,
+        approval_status: approval_status,
+      }),
+    };
+
+    fetch("http://localhost:8080/1705588/update", config)
       .then((res) => res.json())
       .then(({ message }) => {
         if (message === "Success") {
